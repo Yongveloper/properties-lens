@@ -1,0 +1,8 @@
+{
+  "propertiesLens.primaryLocale": "ko",
+  "propertiesLens.keyPatterns": [
+    "<spring:message\\s[^>]*?code\\s*=\\s*[\"']([^\"']+)[\"']",
+    "\\$\\.i18n\\.([A-Za-z_$][\\w$]*)",
+    "\\$\\.i18n\\[\\s*[\"']([^\"']+)[\"']\\s*\\]"
+  ]
+}

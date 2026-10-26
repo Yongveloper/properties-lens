@@ -1,0 +1,263 @@
+{
+  "name": "properties-lens",
+  "displayName": "%displayName%",
+  "description": "%description%",
+  "version": "0.1.0",
+  "publisher": "yongveloper",
+  "license": "MIT",
+  "icon": "images/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yongveloper/properties-lens"
+  },
+  "bugs": {
+    "url": "https://github.com/Yongveloper/properties-lens/issues"
+  },
+  "homepage": "https://github.com/Yongveloper/properties-lens#readme",
+  "keywords": [
+    "properties",
+    "java",
+    "i18n",
+    "resource bundle",
+    "native2ascii",
+    "unicode escape",
+    "spring",
+    "jsp",
+    "messages",
+    "localization"
+  ],
+  "categories": [
+    "Programming Languages",
+    "Visualization",
+    "Other"
+  ],
+  "galleryBanner": {
+    "color": "#183054",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "workspaceContains:**/*.properties"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "propertiesLens.openDecoded",
+        "title": "%command.openDecoded%",
+        "category": "%category%",
+        "icon": "$(eye)"
+      },
+      {
+        "command": "propertiesLens.openRaw",
+        "title": "%command.openRaw%",
+        "category": "%category%",
+        "icon": "$(file-code)"
+      },
+      {
+        "command": "propertiesLens.compareWithHead",
+        "title": "%command.compareWithHead%",
+        "category": "%category%",
+        "icon": "$(git-compare)"
+      },
+      {
+        "command": "propertiesLens.compareAllChanges",
+        "title": "%command.compareAllChanges%",
+        "category": "%category%",
+        "icon": "$(diff-multiple)"
+      },
+      {
+        "command": "propertiesLens.search",
+        "title": "%command.search%",
+        "category": "%category%",
+        "icon": "$(search)"
+      },
+      {
+        "command": "propertiesLens.copyKey",
+        "title": "%command.copyKey%",
+        "category": "%category%"
+      },
+      {
+        "command": "propertiesLens.findUsages",
+        "title": "%command.findUsages%",
+        "category": "%category%"
+      },
+      {
+        "command": "propertiesLens.openDefinition",
+        "title": "%command.openDefinition%",
+        "category": "%category%"
+      },
+      {
+        "command": "propertiesLens.sync",
+        "title": "%command.sync%",
+        "category": "%category%",
+        "icon": "$(sync)"
+      }
+    ],
+    "configuration": {
+      "title": "%config.title%",
+      "properties": {
+        "propertiesLens.bundleGlob": {
+          "type": "string",
+          "default": "**/*.properties",
+          "description": "%config.bundleGlob%"
+        },
+        "propertiesLens.exclude": {
+          "type": "string",
+          "default": "**/{target,build,node_modules,out,dist,.git}/**",
+          "description": "%config.exclude%"
+        },
+        "propertiesLens.primaryLocale": {
+          "type": "string",
+          "default": "",
+          "description": "%config.primaryLocale%"
+        },
+        "propertiesLens.keyPatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "<spring:message\\s[^>]*?code\\s*=\\s*[\"']([^\"']+)[\"']",
+            "<fmt:message\\s[^>]*?key\\s*=\\s*[\"']([^\"']+)[\"']",
+            "getMessage\\(\\s*[\"']([^\"']+)[\"']"
+          ],
+          "description": "%config.keyPatterns%"
+        },
+        "propertiesLens.decorateFiles": {
+          "type": "string",
+          "default": "**/*.{jsp,jspf,tag,js,ts,html,java}",
+          "description": "%config.decorateFiles%"
+        },
+        "propertiesLens.syncCommand": {
+          "type": "string",
+          "default": "",
+          "description": "%config.syncCommand%"
+        },
+        "propertiesLens.syncCwd": {
+          "type": "string",
+          "default": "",
+          "description": "%config.syncCwd%"
+        },
+        "propertiesLens.autoOpenDecoded": {
+          "type": "boolean",
+          "default": true,
+          "description": "%config.autoOpenDecoded%"
+        }
+      }
+    },
+    "menus": {
+      "editor/title": [
+        {
+          "command": "propertiesLens.openRaw",
+          "when": "resourceScheme == properties-lens",
+          "group": "navigation"
+        },
+        {
+          "command": "propertiesLens.openDecoded",
+          "when": "resourceScheme == file && resourceExtname == .properties",
+          "group": "navigation"
+        },
+        {
+          "command": "propertiesLens.compareWithHead",
+          "when": "resourceScheme == properties-lens || resourceScheme == file && resourceExtname == .properties",
+          "group": "navigation"
+        },
+        {
+          "command": "propertiesLens.search",
+          "when": "resourceScheme == properties-lens",
+          "group": "navigation"
+        },
+        {
+          "command": "propertiesLens.sync",
+          "when": "resourceScheme == properties-lens && config.propertiesLens.syncCommand != ''",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "propertiesLens.openRaw",
+          "when": "resourceScheme == properties-lens"
+        },
+        {
+          "command": "propertiesLens.copyKey",
+          "when": "false"
+        },
+        {
+          "command": "propertiesLens.findUsages",
+          "when": "false"
+        },
+        {
+          "command": "propertiesLens.openDefinition",
+          "when": "false"
+        }
+      ],
+      "scm/resourceState/context": [
+        {
+          "command": "propertiesLens.compareWithHead",
+          "when": "scmProvider == git && resourceExtname == .properties",
+          "group": "navigation"
+        }
+      ],
+      "scm/title": [
+        {
+          "command": "propertiesLens.compareAllChanges",
+          "when": "scmProvider == git",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "propertiesLens.search",
+        "key": "ctrl+alt+m",
+        "mac": "cmd+alt+m"
+      }
+    ],
+    "taskDefinitions": [
+      {
+        "type": "propertiesLens",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Run id"
+          }
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "test": "pnpm test:unit && pnpm test:integration",
+    "build": "node esbuild.mjs",
+    "compile-tests": "tsc -p tsconfig.test.json",
+    "test:unit": "vitest run",
+    "test:integration": "pnpm build && pnpm compile-tests && node scripts/make-fixture.mjs && vscode-test",
+    "package": "pnpm build && vsce package --no-dependencies",
+    "publish": "pnpm build && vsce publish --no-dependencies"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^22.20.5",
+    "@types/vscode": "1.90.0",
+    "@vscode/test-cli": "^0.0.15",
+    "@vscode/test-electron": "^3.1.0",
+    "@vscode/vsce": "^4.0.0",
+    "esbuild": "^0.28.2",
+    "mocha": "^12.0.3",
+    "typescript": "^5.9.3",
+    "vitest": "^5.0.5"
+  },
+  "l10n": "./l10n",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": "limited",
+      "description": "%capabilities.untrustedWorkspaces%",
+      "restrictedConfigurations": [
+        "propertiesLens.syncCommand",
+        "propertiesLens.syncCwd"
+      ]
+    }
+  }
+}
